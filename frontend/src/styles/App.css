@@ -1,0 +1,139 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  padding: 0 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.navbar {
+  background-color: #777;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: bold;
+}
+
+.search-bar {
+  width: 90%;
+  max-width: 600px;
+  padding: 0.75rem;
+  margin: 1rem auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  display: block;
+}
+
+.restaurant-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.restaurant-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  /* transition: transform 0.2s ease; */
+  padding-bottom: 1rem;
+}
+
+/* .restaurant-card:hover {
+  transform: scale(1.05);
+} */
+
+.restaurant-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.restaurant-card h3 {
+  text-align: left;
+  margin: 1rem 0 0.5rem 1rem;
+  font-size: 1.5rem;
+}
+
+.restaurant-card p {
+  margin: 0 1rem 1rem;
+  color: #777;
+}
+
+.restaurant-card button {
+  background-color: #777;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.restaurant-card button:hover {
+  background-color: #AAA;
+}
+
+.nav-button {
+  background-color: #777;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.nav-button:hover {
+  background-color: #AAA;
+}
+
+h1 {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
+.navbar h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+h3 {
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+h4 {
+  text-align: center;
+  margin: 0rem 0rem 1.5rem 0rem;
+  font-size: 1rem;
+  color: #666;
+} 

@@ -1,0 +1,150 @@
+## Technologies Suggérées
+- Frontend: React.js
+- Backend: Node.js + Express
+- Base de données: MongoDB
+- Mobile: React Native
+
+# Installation de MongoDB (Procédure Complète) :
+
+1. Préparer les dossiers :
+   ```powershell
+   mkdir "C:\data"
+   mkdir "C:\data\db"
+   mkdir "C:\data\log"
+   New-Item -Path "C:\data\log\mongodb.log" -ItemType File
+   ```
+
+2. Installer MongoDB :
+   - Télécharger MongoDB Community Server depuis mongodb.com
+   - Pendant l'installation, cocher "Install MongoDB as a Service"
+   - Cocher aussi "Install MongoDB Compass"
+   - Suivre l'assistant d'installation
+
+3. Si le service ne démarre pas :
+   a) Ouvrir services.msc (Windows + R, taper "services.msc")
+   b) Trouver "MongoDB"
+   c) Double-cliquer sur MongoDB
+   d) Dans l'onglet "Connexion" :
+      - Sélectionner "Compte système local"
+      - Cocher "Autoriser le service à interagir avec le bureau"
+   e) Cliquer "Appliquer" puis "OK"
+   f) Clic droit sur MongoDB -> Démarrer
+
+4. Ouvrir MongoDB Compass :
+   - Chercher "MongoDB Compass" dans le menu Démarrer
+   - Ou aller dans C:\Program Files\MongoDB Compass
+   
+   - Au premier lancement, cliquer sur "Connect"
+   - L'URL par défaut mongodb://localhost:27017 devrait être pré-remplie
+   - Cliquer sur "Connect"
+   - Si la connexion réussit, vous verrez la liste des bases de données
+
+# En cas de problème avec Compass :
+1. Vérifier que le service MongoDB est bien démarré (étape 3)
+2. Essayer de redémarrer MongoDB Compass
+3. Vérifier l'URL de connexion (mongodb://localhost:27017)
+4. Consulter les logs dans C:\data\log\mongodb.log
+
+# Note importante :
+- Toujours exécuter PowerShell en tant qu'administrateur
+- Redémarrer l'ordinateur si les problèmes persistent
+
+# Commandes pour installer MongoDB :
+IMPORTANT : Exécuter PowerShell en tant qu'administrateur !
+
+1. mkdir "C:\data"
+2. mkdir "C:\data\db"
+3. mkdir "C:\data\log"
+4. New-Item -Path "C:\data\log\mongodb.log" -ItemType File
+
+5. cd "C:\Program Files\MongoDB\Server\8.0\bin"
+6. .\mongod.exe --remove
+7. .\mongod.exe --install --serviceName "MongoDB" --dbpath="C:\data\db" --logpath="C:\data\log\mongodb.log"
+8. net start MongoDB
+
+# Alternative si ça ne fonctionne toujours pas :
+1. Ouvrir "Services" dans Windows (Win + R, puis tapez "services.msc")
+2. Trouver "MongoDB"
+3. Clic droit -> Propriétés
+4. Dans "Connexion", sélectionner "Système local"
+5. Cliquer OK et démarrer le service
+
+# Si erreur d'accès, exécuter :
+icacls "C:\data" /grant "Users":(OI)(CI)F /T
+
+
+
+
+
+
+
+
+
+
+# Étapes après l'installation de MongoDB :
+
+1. Créer la structure du projet :
+   ```bash
+   # Créer le dossier principal
+   mkdir food-delivery-app
+   cd food-delivery-app
+   
+   # Créer le frontend avec une version spécifique de React
+   npx create-react-app@latest frontend --template typescript --use-npm
+   
+   # Créer le backend
+   mkdir backend
+   cd backend
+   npm init -y
+   ```
+
+2. Installer les dépendances frontend :
+   ```bash
+   cd frontend
+   npm install react-router-dom@6 axios @mui/material @emotion/react @emotion/styled --legacy-peer-deps
+   ```
+
+3. Installer les dépendances backend :
+   ```bash
+   cd ../backend
+   npm install express mongoose cors dotenv
+   ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Lancer le projet :
+   ```bash
+   # Terminal 1 - Backend
+   cd backend
+   npm start
+   
+   # Terminal 2 - Frontend
+   cd frontend
+   npm start
+   ```
+
+5. Vérifier que tout fonctionne :
+   - Backend : http://localhost:5000 devrait répondre
+   - Frontend : http://localhost:3000 devrait s'ouvrir automatiquement
+   - MongoDB Compass : devrait montrer la base de données 'food-delivery'
+
+# Points de vérification :
+1. Le service MongoDB tourne (vérifiable dans services.msc)
+2. MongoDB Compass peut se connecter
+3. Le serveur backend démarre sans erreur
+4. Le frontend s'affiche dans le navigateur
+
+
+Dans le frontend
+   npm run build
+   serve -s build
