@@ -10,4 +10,9 @@ it('affiche le message de livraison en cours', async () => {
 it('affiche le message de livraison terminée', async () => {
   const { getByText } = render(<TrackOrder match={{ params: { orderId: '123' } }} />);
   await waitFor(() => expect(getByText(/Votre commande a été livrée/i)).toBeInTheDocument());
-}); 
+});
+
+it('affiche un message de statut inconnu si le statut est invalide', async () => {
+  const { getByText } = render(<TrackOrder match={{ params: { orderId: 'invalid' } }} />);
+  await waitFor(() => expect(getByText(/Statut inconnu/i)).toBeInTheDocument());
+});

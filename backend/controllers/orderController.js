@@ -1,39 +1,29 @@
-const Order = require('../models/Order');
+const orders = []; // Local orders array
 
-exports.createOrder = async (req, res) => {
-  try {
-    const { items, total, address } = req.body;
-    const order = new Order({
-      user: req.user.id,
-      items,
-      total,
-      address,
-      status: 'processing'
-    });
-    await order.save();
-    res.status(201).json(order);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+exports.createOrder = (req, res) => {
+  const { user, items, total, address } = req.body;
+  const newOrder = {
+    id: orders.length + 1,
+    user,
+    items,
+    total,
+    address,
+    status: 'En attente',
+    createdAt: new Date()
+  };
+  orders.push(newOrder);
+  res.status(201).json(newOrder);
 };
 
-exports.getOrderById = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
-    if (!order) return res.status(404).json({ message: 'Commande non trouvée' });
-    res.json(order);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+exports.getOrderById = (req, res) => {
+  const order = orders.find(o => o.id === parseInt(req.params.id));
+  if (!order) return res.status(404).json({ message: 'Commande non trouvée' });
+  res.json(order);
 };
 
-exports.getUserOrders = async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.params.userId });
-    res.json(orders);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+exports.getUserOrders = (req, res) => {
+  const userOrders = orders.filter(o => o.user === req.params.userId);
+  res.json(userOrders);
 };
 
 exports.updateOrderStatus = async (req, res) => {
@@ -45,4 +35,4 @@ exports.updateOrderStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}; 
+};

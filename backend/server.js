@@ -4,6 +4,8 @@ const app = express();
 const PORT = 5000;
 const jwt = require('jsonwebtoken');
 const stripe = require('stripe')('sk_test_XXXXXXXXXXXXXXXXXXXXXXXX');
+const restaurantRoutes = require('./routes/restaurantRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 // Middleware
 app.use(cors());
@@ -20,56 +22,14 @@ const users = [
   { id: 1, email: 'user@example.com', password: 'password123' }
 ];
 
-// Route pour obtenir les restaurants
-app.get('/api/restaurants', (req, res) => {
-  res.json(restaurants);
-});
+const orders = [];
 
-// Route de connexion
-app.post('/api/login', (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find(u => u.email === email && u.password === password);
+// Supprimé : Toute configuration ou connexion MongoDB/Mongoose
 
-  if (user) {
-    const token = jwt.sign({ id: user.id }, 'secret_key', { expiresIn: '1h' });
-    res.json({ token });
-  } else {
-    res.status(401).json({ message: 'Email ou mot de passe incorrect' });
-  }
-});
+// Routes
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/orders', orderRoutes);
 
-// Middleware pour vérifier le token
-const authenticate = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'Accès refusé' });
-
-  try {
-    const verified = jwt.verify(token, 'secret_key');
-    req.user = verified;
-    next();
-  } catch (err) {
-    res.status(400).json({ message: 'Token invalide' });
-  }
-};
-
-// Route protégée (exemple)
-app.get('/api/protected', authenticate, (req, res) => {
-  res.json({ message: 'Accès autorisé', user: req.user });
-});
-
-// Route de paiement
-app.post('/api/create-payment-intent', authenticate, async (req, res) => {
-  const { amount } = req.body;
-
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount * 100, // Montant en cents
-    currency: 'eur',
-  });
-
-  res.json({ clientSecret: paymentIntent.client_secret });
-});
-
-// Démarrer le serveur
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
-}); 
+});

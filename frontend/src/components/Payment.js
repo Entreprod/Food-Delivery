@@ -1,42 +1,91 @@
-import React from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState } from 'react';
 
-const stripePromise = loadStripe('votre_clé_publique_stripe');
+const Payment = ({ total }) => {
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryMonth, setExpiryMonth] = useState('');
+  const [expiryYear, setExpiryYear] = useState('');
+  const [cvv, setCvv] = useState('');
 
-const CheckoutForm = ({ total }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logique de paiement ici
+    console.log('Paiement en cours...');
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement),
-    });
+  const formatCardNumber = (value) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    const matches = v.match(/\d{4,16}/g);
+    const match = (matches && matches[0]) || '';
+    const parts = [];
 
-    if (error) {
-      console.error(error);
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+
+    if (parts.length) {
+      return parts.join(' ');
     } else {
-      console.log('Paiement réussi:', paymentMethod);
-      // Envoyez le paiement à votre backend
+      return value;
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Payer {total} €
-      </button>
-    </form>
+    <div className="payment-section">
+      <div className="payment-amount">
+        Montant à payer : <span>{total.toFixed(2)}€</span>
+      </div>
+      <form onSubmit={handleSubmit} className="payment-form">
+        <div className="form-group">
+          <label>Numéro de carte</label>
+          <input
+            type="text"
+            placeholder="1234 5678 9012 3456"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+            maxLength="19"
+            required
+          />
+        </div>
+        <div className="card-details">
+          <div className="form-group">
+            <label>Date d'expiration</label>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <input
+                type="text"
+                placeholder="MM"
+                value={expiryMonth}
+                onChange={(e) => setExpiryMonth(e.target.value.slice(0, 2))}
+                maxLength="2"
+                required
+              />
+              <input
+                type="text"
+                placeholder="AA"
+                value={expiryYear}
+                onChange={(e) => setExpiryYear(e.target.value.slice(0, 2))}
+                maxLength="2"
+                required
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>CVV</label>
+            <input
+              type="text"
+              placeholder="123"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value.slice(0, 3))}
+              maxLength="3"
+              required
+            />
+          </div>
+        </div>
+        <button type="submit" className="pay-button">
+          Payer {total.toFixed(2)}€
+        </button>
+      </form>
+    </div>
   );
 };
-
-const Payment = ({ total }) => (
-  <Elements stripe={stripePromise}>
-    <CheckoutForm total={total} />
-  </Elements>
-);
 
 export default Payment; 
