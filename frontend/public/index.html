@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#2d2d2d" id="theme-color-meta" />
     <meta name="description" content="Application de livraison de nourriture" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
@@ -22,5 +22,20 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+      // Dynamically update the theme color meta tag based on dark mode
+      const themeColorMeta = document.getElementById('theme-color-meta');
+      const updateThemeColor = () => {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        themeColorMeta.setAttribute('content', isDarkMode ? '#2d2d2d' : '#ffffff');
+      };
+
+      // Observe changes to the body class
+      const observer = new MutationObserver(updateThemeColor);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      // Initial update
+      updateThemeColor();
+    </script>
   </body>
 </html>

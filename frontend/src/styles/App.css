@@ -118,61 +118,73 @@ body, button, input, textarea {
 
 /* Barre de recherche */
 .search-bar {
-  width: 90%;
-  max-width: 600px;
+  width: 60%;
   padding: 0.75rem;
   margin: 1rem auto;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border-color); /* Dynamic border color */
   border-radius: 8px;
   font-size: 1rem;
   box-sizing: border-box;
   display: block;
   font-family: inherit;
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
+  background-color: var(--bg-secondary); /* Dynamic background for dark/light mode */
+  color: var(--text-primary); /* Dynamic text color */
 }
 
 .search-bar::placeholder {
-  color: var(--text-secondary);
+  color: var(--text-secondary); /* Dynamic placeholder color */
+}
+
+body.dark-mode .search-bar {
+  background-color: var(--bg-secondary); /* Adjust background for dark mode */
+  color: var(--text-primary); /* Adjust text color for dark mode */
+}
+
+body.dark-mode .search-bar::placeholder {
+  color: var(--text-secondary); /* Adjust placeholder color for dark mode */
 }
 
 /* Liste des restaurants */
 .restaurant-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
   gap: 20px;
   justify-content: center;
   padding: 20px;
 }
 
 .restaurant-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 15px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: relative; /* Enable positioning for child elements */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Ensure content is spaced out */
+  justify-content: space-between;
+  background-color: var(--card-bg);
+  color: var(--card-text);
+  border: 2px solid var(--border-color); /* Updated to match the search bar border thickness */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  overflow: hidden; /* Ensure content stays within the card */
+  position: relative; /* Enable positioning for child elements */
+  padding: 15px; /* Add padding inside the card */
 }
 
 .restaurant-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 4px;
+  width: 100%; /* Ensure the image spans the full width */
+  height: 200px; /* Set a fixed height */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-radius: 8px 8px 0 0; /* Rounded corners for the top */
 }
 
 .restaurant-card h3 {
-  margin: 10px 0;
+  font-size: 1.2rem; /* Increased font size for the restaurant name */
+  margin: 5px 0; /* Reduced spacing between the name and description */
+  text-align: left; /* Align name to the left */
 }
 
 .restaurant-card p {
   font-size: 0.9rem;
   color: #666;
+  text-align: left; /* Align description to the left */
+  margin-bottom: 20px; /* Add space between the description and the button */
 }
 
 .view-details {
@@ -191,17 +203,14 @@ body, button, input, textarea {
 }
 
 .view-menu {
-  display: inline-block;
-  margin-top: 10px;
+  bottom: 15px;
+  right: 15px;
   padding: 10px 15px;
   background-color: #28a745;
   color: #fff;
   text-decoration: none;
   border-radius: 4px;
   font-size: 0.9rem;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
 }
 
 .view-menu:hover {
@@ -662,8 +671,17 @@ input, button, select, textarea {
 /* Media query pour les petits écrans */
 @media (max-width: 768px) {
   .restaurant-list {
+    grid-template-columns: 1fr; /* Ensure single column layout */
+    gap: 40px; /* Increase vertical spacing between cards */
+    padding: 0 20px; /* Add horizontal padding for more width */
+  }
+  .restaurant-list {
     grid-template-columns: 1fr;
-    padding: 1rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;;
+  }
+  .restaurant-image {
+    width: 100%;
+    max-width: 100%; /* Adjusted to take full width on mobile */
   }
 }
 
@@ -839,7 +857,6 @@ input, button, select, textarea {
 
   .restaurant-image {
     width: 100%;
-    max-width: 300px;
   }
 
   .menu-item {
@@ -1006,8 +1023,14 @@ button:disabled {
 /* Uniformisation des images */
 .restaurant-image, .menu-item img {
   border-radius: 8px;
-  border: 4px solid var(--border-color);
   box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.restaurant-image {
+  width: 90%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .menu-item {
@@ -1103,7 +1126,7 @@ button:disabled {
 .restaurant-card {
   background-color: var(--card-bg); /* Dynamic background for dark/light mode */
   color: var(--card-text); /* Dynamic text color */
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   padding: 15px;
   width: 300px;
@@ -1115,13 +1138,7 @@ button:disabled {
   box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-.restaurant-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid var(--border-color);
-}
+
 
 .view-details {
   display: none; /* Remove the button at the bottom-right */
@@ -1178,4 +1195,70 @@ button:disabled {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem; /* Add spacing above the buttons */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem; /* Reduce padding for navbar */
+  }
+
+  .navbar-content {
+    padding: 4px 8px 0px 8px; /* Remove extra padding */
+  }
+
+  .navbar h1 {
+    font-size: 1.2rem; /* Reduce font size for navbar title */
+  }
+
+  .nav-links a {
+    font-size: 0.9rem; /* Reduce font size for links */
+  }
+
+  .home {
+    padding: 10px; /* Reduce padding for the home page */
+  }
+
+  .home h1 {
+    font-size: 1rem; /* Further reduce font size for the main title */
+  }
+
+  .home p {
+    font-size: 0.9rem; /* Further reduce font size for the subtitle */
+  }
+
+  .search-bar {
+    width: 95%; /* Adjust width for smaller screens */
+    font-size: 0.9rem; /* Reduce font size for input */
+  }
+
+  .restaurant-list {
+    gap: 24px; /* Reduce spacing between restaurant cards */
+  }
+
+  .restaurant-card {
+    padding: 10px; /* Reduce padding inside cards */
+    width: 100%; /* Make cards take full width */
+  }
+
+  .restaurant-card h3 {
+    font-size: 1rem; /* Reduce font size for restaurant names */
+  }
+
+  .restaurant-card p {
+    font-size: 0.8rem; /* Reduce font size for descriptions */
+  }
+
+  .view-details, .view-menu {
+    font-size: 0.8rem; /* Reduce font size for buttons */
+    padding: 8px 10px; /* Adjust button padding */
+  }
+
+  .home h1 {
+    font-size: 0.9rem; /* Further reduce font size for the main title */
+  }
+
+  .home p {
+    font-size: 0.8rem; /* Further reduce font size for the subtitle */
+  }
 }

@@ -13,7 +13,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-content">
         <Link to="/">
-          <h1>Food Delivery</h1>
+          <h1>N Z A F O O D</h1>
         </Link>
         <div className="nav-links">
           <button className="theme-toggle" onClick={toggleTheme}>

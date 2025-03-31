@@ -260,7 +260,7 @@ const Restaurant = () => {
                 }}
               >
                 <img
-                  src={getMenuImage(item.name)}
+                  src={item.image} // Use the image from the menu data
                   alt={item.name}
                   className="menu-item-image"
                   style={{
